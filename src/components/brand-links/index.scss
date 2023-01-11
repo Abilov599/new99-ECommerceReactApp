@@ -1,0 +1,11 @@
+ul {
+  display: flex;
+  gap: 20px;
+  li {
+    a {
+      i:hover {
+        color: #f8796c;
+      }
+    }
+  }
+}

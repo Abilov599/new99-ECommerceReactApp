@@ -1,7 +1,14 @@
 import { useState } from "react";
+import Footer from "./layouts/footer";
+import Header from "./layouts/header";
 
 function App() {
-  return <div className="App"></div>;
+  return (
+    <main className="App">
+      <Header />
+      <Footer />
+    </main>
+  );
 }
 
 export default App;
