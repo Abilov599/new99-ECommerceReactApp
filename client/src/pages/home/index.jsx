@@ -1,42 +1,49 @@
-import React from "react";
-import { Carousel } from "antd";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import Carousel from "better-react-carousel";
 import "./index.scss";
+import { fetchData } from "../../redux/slice/getDataSlice";
 
 const Home = () => {
-  const contentStyle = {
-    height: "160px",
-    color: "#fff",
-    lineHeight: "160px",
-    textAlign: "center",
-    background: "#364d79",
-  };
+  const myData = useSelector((state) => state.getData);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchData());
+  }, [dispatch]);
 
   return (
     <main>
-      <div className="carousel">
-        <Carousel effect="fade" autoplay autoplaySpeed={5000}>
-          <div>
-            <div className="container">
-              <h3 style={contentStyle}>1</h3>
-            </div>
-          </div>
-          <div>
-            <div className="container">
-              <h3 style={contentStyle}>2</h3>
-            </div>
-          </div>
-          <div>
-            <div className="container">
-              <h3 style={contentStyle}>3</h3>
-            </div>
-          </div>
-          <div>
-            <div className="container">
-              <h3 style={contentStyle}>4</h3>
-            </div>
-          </div>
-        </Carousel>
-      </div>
+      <Carousel cols={5} rows={2} gap={10} loop>
+        {myData.data?.map((el) => {
+          return (
+            <Carousel.Item key={el.id}>
+              <div>
+                <div className="image">
+                  <img src={`${el.img}`} alt="" />
+                </div>
+                <div className="product-info">
+                  <h3>{el.name}</h3>
+                  {el.discountPrice ? (
+                    <>
+                      <a
+                        style={{ textDecoration: "line-through" }}
+                      >{`${el.price}$`}</a>
+                      <a style={{ color: "red" }}>
+                        <strong>{`  ${el.price}$`}</strong>
+                      </a>
+                    </>
+                  ) : (
+                    <a>
+                      <strong>{`${el.price}$`}</strong>
+                    </a>
+                  )}
+                </div>
+              </div>
+            </Carousel.Item>
+          );
+        })}
+      </Carousel>
     </main>
   );
 };
